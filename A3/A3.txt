@@ -1,0 +1,239 @@
+//1
+	A.
+		index = 0
+		greatest = 0
+		second = 0
+
+		twoLargestNumbers(set S, int index, int greatest, int second)
+			if (S.length -1 == index)
+				return greatest, second;
+			else if(S[index] > greatest)
+				greatest = S[index]
+				method(S[], index+1, greatest, second)
+			else if(S[index] < greatest && S[index] > second)
+				second = S[index]
+				method(S[], index+1, greatest, second)
+			else
+				method(S[], index+1, greatest, second)
+
+	B.
+		index = 0
+		greatest = 0
+		least = 0
+
+		smallestLargestNumbers(set S, int index, int greatest, int lease)
+ 			if (S.length -1 == index)
+				return greatest, least
+			else if(S[index] > greatest)
+				greatest = S[index]
+				method(S[], index+1, greatest, least)
+			else if(S[index] < least)
+				least = S[index]
+				method(S[], index+1, greatest, least)
+			else 
+				method(S[], index+1, greatest, least)
+
+	C.
+		index = 0
+		least = 0 
+		second = 0
+
+		smallestNumbers(S[], index, least, second)
+			if (S.length -1 == index)
+				least, second
+			if(S[index] < least && S[index] < second)
+				least = S[index];
+				method(S[], index+1, least, second)
+			else if(S[index] > least && S[index] < second)
+				second = S[index]
+				method(S[], index+1, least, second)
+			else 
+				method(S[], index+1, least, second)
+
+	Proof for A-C:
+		The run time for A-C is linear and can be proved through induction.
+
+		Base cases:
+		n=1, T(n)=1
+
+		If we assume for a value of n, T(n)<=n we can prove T(n+1)<=n+1 to prove the algorithms.
+
+		T(n+1) = T(n) + 1 <= n+1 by the Induction Hypothesis given in class.
+
+		This proves that the tuntime for algorithms A-C are all Theta(n).
+
+	D.
+		mergeSort(S)
+
+		int index =0
+		int smallestDiff = S[1] - S[0]
+
+		method(S[], index, smallestDiff) 
+			if(index == S.length-1)
+				return smallestDiff
+			else if(S[index+1] - S[index] < smallestDiff)
+				smallestDiff = S[index+1] - S[index]
+				method(S[], index+1, smallestDiff)
+			else
+				method (S[], index+1)
+
+
+	E.
+		mergesort(S)
+
+		for i=0 to i=S.length-1
+			alteredBinarySearch(S, S.length-1, i)
+
+		alteredBinarySearch(set S, int up, int low)
+			mid = Math.floor((up-low) / 2)
+			if low = S.length-1
+				return false
+			else if (S[mid]-S[low] == x)
+				return S[mid], S[low]
+			else if (S[mid]+S[low] > x)
+				alteredBinarySearch(S, mid, low)
+			else
+				alteredBinarySearch(S, up, mid)
+
+	F.
+		mergesort(S)
+
+		for i=0 to i=S.length-1
+			alteredBinarySearch(S, S.length-1, i)
+
+		alteredBinarySearch(set S, int up, int low)
+			mid = Math.floor((up-low) / 2)
+			if low = S.length-1
+				return false
+			else if (S[mid]-S[low] == x)
+				return S[mid], S[low]
+			else if (S[mid]-S[low] > x)
+				alteredBinarySearch(S, mid, low)
+			else
+				alteredBinarySearch(S, up, mid)
+	G.
+		mergesort(S)
+
+		for i=0 to i=S.length-1
+			alteredBinarySearch(S, S.length-1, i)
+
+		alteredBinarySearch(set S, int up, int low)
+			mid = Math.floor((up-low) / 2)
+			if low = S.length-1
+				return false
+			else if (S[mid]-S[low] == x || S[mid]-S[low] < x)
+				return true
+			else if (S[mid]-S[low] > x)
+				alteredBinarySearch(S, mid, low)
+
+	Proof for D-G:
+		Proof for merge sort run time of Theta(nlog(n)):
+			T(1) = 1
+			T(n) = T(n/2) + T(n/2) + n 
+			T(n) = 2T(n/2) + n
+			Case 2 of Master Theorem 
+			a = 2, b = 2, c = 1 
+			log_2(2) = 1 = c 
+			T(n) = Theta(n^1(logn)^1) = Theta(n log n)
+
+		Proof for binary search run time of Theata(log(n)):
+
+
+//2
+	Grade School:
+		for j = 0 to N − 1 do							
+			carry ← 0
+			for i = 0 to N − 1 do
+				prod ← (a[i] * b[j] + carry)				//1 mult., 1 add., (n/64)^2 times
+				tmp[j][i + j] ← prod%10						//Negligable mod b/c of shift
+				carry ← prod/10								//Negligable div. b/c of shift
+			end for
+			tmp[j][N + j] ← carry
+		end for
+		carry ← 0
+		for i = 0 to 2 * N − 1 do
+			sum ← carry
+			for j = 0 to N − 1 do
+				sum ← sum + tmp[j][i]						//1add., 2(n/64)^2 times
+			end for					
+			r[i] ← sum%10									//Negligable mod b/c of shift
+			carry ← sum/10									//Negligable div. b/c of shift
+		end for
+		r[2 * N] ← carry
+
+
+		64-bit Multiplication/Divison/Mod = 1.5ns
+		64-bit Addititon/Subtraction = 0.5ns
+		n = 74207280
+		n/64 = 1159488.75
+
+		First part of alg: 
+			(1.5ns+0.5ns)*(n/64)^2 = 2ns*(n/64)^2
+		Second part of alg:
+			(0.5ns)*(2)*(n/64)^2 = 1ns*(n/64)^2
+		Combined:
+			(2ns*(n/64)^2) + (1ns*(n/64)^2) = 3ns(n/64)^2
+
+		Lucas-Lehmer Test:	
+		S[k] = (S[k-1]^2 - 2) % Mp 							//1sub., 1mod
+			(0.5ns+1.5ns)*n*GradeSchool = 2*n*3*10^-9*(n/64)^2 s
+			=(2)*(74207280)*(3)*(10^-9)*(1159488.75)^2 = 5.9859e11 sec
+
+		Convert to years:
+			X sec * 3.17e-8 = Z yrs
+			5.9859e11 * 3.17e-8 = 18,975.36 years
+
+		***********************
+		Answer: 18,975.36 years
+		***********************
+
+	Karatsuba Algorithm:
+		karatsuba(num1, num2)
+  			if (num1 < 10) or (num2 < 10)
+    			return num1*num2
+  			m = max(size_base10(num1), size_base10(num2))
+  			m2 = m/2
+  			high1, low1 = split_at(num1, m2)
+  			high2, low2 = split_at(num2, m2)
+  			z0 = karatsuba(low1,low2)
+  			z1 = karatsuba((low1+high1),(low2+high2))		//2 n add.
+  			z2 = karatsuba(high1,high2)
+  			return (z2*10^(2*m2))+((z1-z2-z0)*10^(m2))+(z0)	//1 n mult. (two are shifts), 2 (n/2) add. 
+
+  		Combined alg:
+  			(1.5ns * n) + (0.5ns * 2 * n) + (0.5ns * 2 * (n/2))
+  			= 3ns * n
+
+		The theorem given in class states that the Karatsuba algorithm can multiply two n-digit integers in n^1.585 bit operations.
+			We have n/64 bits so we take the above calculation and combine it with the theorem to get:
+			(3) * (10^-9) * (n/64)^1.585
+
+		Lucas-Lehmer Test:	
+		S[k] = (S[k-1]^2 - 2) % Mp 							//1sub., 1mod
+			(0.5ns+1.5ns)*n*Karatsuba = 2 * n * 3 * 10^-9 * (n/64)^1.585
+			= 2 * 74207280 * 3 * 10^-9 * (1159488.75)^1.585 = 1821630245 sec
+
+		Convert to years:
+			X sec * 3.17e-8 = Z yrs
+			1821630245 * 3.17e-8 = 57.93 years
+
+		*******************	
+		Answer: 57.93 years
+		*******************
+
+//3
+	Indecies [S.length]
+
+	alg(set S, int up, int low)
+		mid = Math.floor(up-low/2)
+		for i=0 to i=S.length-1
+			Indecies[i] = S[i]
+		first = Numbers.sublist[0,mid]
+		second = Numbers.sublist[mid,S.length-1]
+		for j=0 to j=second[second.length-1]
+			binarysearch(alg(second, 0, second.length-1))
+		for k=0 to k=first[first.length-1]
+			binarysearch(alg(first, 0, first.length-1))
+
+
+
